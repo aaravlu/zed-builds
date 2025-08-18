@@ -38,7 +38,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: zed-industries/zed
-          ref: refs/tags/v0.199.9
+          ref: refs/tags/v0.199.10
           path: zed
 
       - name: Install Rust
