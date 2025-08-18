@@ -37,7 +37,7 @@ jobs:
       - name: Checkout Zed
         uses: actions/checkout@v4
         with:
-          repository: ${{ inputs.repository }}
+          repository: zed-industries/zed
           ref: refs/tags/v0.199.9
           path: zed
 
