@@ -1,4 +1,8 @@
 [target."cfg(all())"]
-rustflags = []
+rustflags = ["-C", "target-feature=+avx2"]
 [profile.release]
+codegen-units = 1
 debug = false
+lto = true
+panic = "abort"
+strip = true
