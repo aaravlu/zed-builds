@@ -17,6 +17,14 @@ jobs:
       fail-fast: false
 
     steps:
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+          toolset: 14.29
+          sdk: 10.0.19041.0
+          spectre: true
+
       - name: Enable long paths in Git
         run: |
           git config --system core.longpaths true
@@ -57,14 +65,6 @@ jobs:
       - name: Setup Rustflags
         shell: pwsh
         run: ./scripts/Parse-Rustflags.ps1 ${{ matrix.rustflags }}
-
-      - name: Setup MSVC
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: x64
-          toolset: 14.29
-          sdk: 10.0.19041.0
-          spectre: true
 
       - name: Build Release
         working-directory: zed
