@@ -30,7 +30,6 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: stable
-          override: true
           target: wasm32-wasip1
 
       - name: Rust Cache
@@ -40,7 +39,9 @@ jobs:
           workspaces: "zed -> target"
 
       - name: Setup rustflags
-        run: ./scripts/parse-rustflags.sh ${{ matrix.rustflags }}
+        run: |
+          chmod +x scripts/parse-rustflags.sh
+          ./scripts/parse-rustflags.sh ${{ matrix.rustflags }}
 
       - name: Build release
         working-directory: zed
