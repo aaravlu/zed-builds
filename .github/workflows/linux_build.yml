@@ -6,14 +6,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        backend: [vulkan]
-        include:
-          - backend: vulkan
-            artifact_name: zed-release
-            rustflags: ""
-      fail-fast: false
 
     steps:
       - name: Checkout self
@@ -38,14 +30,11 @@ jobs:
           key: ${{ matrix.backend }}-${{ hashFiles('Cargo.lock') }}
           workspaces: "zed -> target"
 
-      - name: Setup rustflags
-        run: |
-          chmod +x scripts/parse-rustflags.sh
-          ./scripts/parse-rustflags.sh ${{ matrix.rustflags }}
-
       - name: Build release
         working-directory: zed
-        run: cargo b -r
+        run: |
+          export RUSTFLAGS="-C target-cpu=native -C link-arg=-fuse-ld=lld"
+          cargo b -r
 
       - name: Archive build
         uses: actions/upload-artifact@v4
