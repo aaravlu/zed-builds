@@ -1,11 +1,11 @@
-name: LinuxBuild 
+name: LinuxBuild
 
 on:
   push
 
 jobs:
   build:
-    runs-on: ubuntu-2024
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         backend: [vulkan]
