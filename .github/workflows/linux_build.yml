@@ -34,7 +34,7 @@ jobs:
         working-directory: zed
         run: |
           export RUSTFLAGS="-C target-cpu=native -C link-arg=-fuse-ld=lld"
-          sudo apt install libx11-dev
+          sudo apt install libx11-dev libasound2-dev
           cargo b -r
 
       - name: Archive build
