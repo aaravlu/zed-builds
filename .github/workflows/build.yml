@@ -30,27 +30,15 @@ jobs:
           sudo apt update
           sudo apt install -y libx11-dev libasound2-dev libx11-xcb-dev libxkbcommon-dev libxkbcommon-x11-dev
 
+      - name: Checkout self
+        uses: actions/checkout@v4
+
       - name: Checkout Zed
         uses: actions/checkout@v4
         with:
           repository: zed-industries/zed
           ref: refs/tags/v0.201.9
           path: zed
-
-      - name: Update Cargo config linux
-        run: |
-          mv .cargo/config.toml zed/.cargo/
-
-      # - name: Update Cargo config linux
-      #   if: matrix.os == 'ubuntu-24.04'
-      #   run: |
-      #     mv .cargo/config.toml zed/.cargo/
-
-      # - name: Update Cargo config windows
-      #   if: matrix.os == 'ubuntu-24.04'
-      #   shell: powershell
-      #   run: |
-      #     mv .cargo/config.toml zed/.cargo/
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
