@@ -24,12 +24,6 @@ jobs:
           New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" `
             -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
 
-      # - name: Install Linux dependencies
-      #   if: matrix.os == 'ubuntu-24.04'
-      #   run: |
-      #     sudo apt update
-      #     sudo apt install -y libx11-dev libasound2-dev libx11-xcb-dev libxkbcommon-dev libxkbcommon-x11-dev
-
       - name: Checkout self
         uses: actions/checkout@v4
 
@@ -44,37 +38,43 @@ jobs:
         run: |
           cp .cargo/config.toml zed/.cargo/
 
-      # - name: Install Rust
-      #   uses: dtolnay/rust-toolchain@stable
-      #   with:
-      #     toolchain: stable
-      #     target: wasm32-wasip1
+      - name: Install Linux dependencies
+        if: matrix.os == 'ubuntu-24.04'
+        run: |
+          sudo apt update
+          sudo apt install -y libx11-dev libasound2-dev libx11-xcb-dev libxkbcommon-dev libxkbcommon-x11-dev
 
-      # - name: Rust Cache
-      #   uses: Swatinem/rust-cache@v2
-      #   with:
-      #     key: ${{ matrix.os }}-${{ hashFiles('Cargo.lock') }}
-      #     workspaces: "zed -> target"
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+          target: wasm32-wasip1
 
-      # - name: Build
-      #   working-directory: zed
-      #   env:
-      #     RUSTFLAGS: "-C target-cpu=native"
-      #   run: |
-      #     cargo b -r
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.os }}-${{ hashFiles('Cargo.lock') }}
+          workspaces: "zed -> target"
 
-      # - name: Archive windows build
-      #   if: matrix.os == 'windows-2022'
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: zed-${{ matrix.os }}
-      #     path: |
-      #       zed/target/release/zed.exe
+      - name: Build
+        working-directory: zed
+        env:
+          RUSTFLAGS: "-C target-cpu=native"
+        run: |
+          cargo b -r
 
-      # - name: Archive linux build
-      #   if: matrix.os == 'ubuntu-24.04'
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: zed-${{ matrix.os }}
-      #     path: |
-      #       zed/target/release/zed
+      - name: Archive windows build
+        if: matrix.os == 'windows-2022'
+        uses: actions/upload-artifact@v4
+        with:
+          name: zed-${{ matrix.os }}
+          path: |
+            zed/target/release/zed.exe
+
+      - name: Archive linux build
+        if: matrix.os == 'ubuntu-24.04'
+        uses: actions/upload-artifact@v4
+        with:
+          name: zed-${{ matrix.os }}
+          path: |
+            zed/target/release/zed
