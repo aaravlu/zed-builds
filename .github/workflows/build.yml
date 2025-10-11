@@ -37,6 +37,21 @@ jobs:
           ref: refs/tags/v0.201.9
           path: zed
 
+      - name: Update Cargo config linux
+        run: |
+          mv .cargo/config.toml zed/.cargo/
+
+      # - name: Update Cargo config linux
+      #   if: matrix.os == 'ubuntu-24.04'
+      #   run: |
+      #     mv .cargo/config.toml zed/.cargo/
+
+      # - name: Update Cargo config windows
+      #   if: matrix.os == 'ubuntu-24.04'
+      #   shell: powershell
+      #   run: |
+      #     mv .cargo/config.toml zed/.cargo/
+
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:

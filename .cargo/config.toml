@@ -1,4 +1,4 @@
-[target."cfg(all())"]
+[build]
 rustflags = ["-C", "target-cpu=native"]
 [profile.release]
 codegen-units = 1
