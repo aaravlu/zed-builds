@@ -42,7 +42,7 @@ jobs:
 
       - name: Copy config file
         run: |
-          cp .cargo/config.toml zed/.cargo/config.toml
+          cp .cargo/config.toml zed/.cargo/
 
       # - name: Install Rust
       #   uses: dtolnay/rust-toolchain@stable
