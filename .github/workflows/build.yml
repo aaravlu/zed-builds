@@ -12,15 +12,20 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Setup MSVC
+      - name: Enable long paths in Git
         if: ${{ matrix.os == 'windows-2022' }}
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: x64
-          sdk: 10.0.20348.0
+        run: |
+          git config --system core.longpaths true
 
-      - name: Checkout self
-        uses: actions/checkout@v4
+      - name: Enable long paths in Windows
+        if: ${{ matrix.os == 'windows-2022' }}
+        shell: powershell
+        run: |
+          New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" `
+            -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
+
+      # - name: Checkout self
+      #   uses: actions/checkout@v4
 
       - name: Checkout Zed
         uses: actions/checkout@v4
@@ -39,8 +44,7 @@ jobs:
         uses: Swatinem/rust-cache@v2
         with:
           key: ${{ matrix.os }}-${{ hashFiles('Cargo.lock') }}
-          workspaces: |
-            zed -> zed/target
+          workspaces: "zed -> target"
 
       - name: Build
         working-directory: zed
