@@ -2,8 +2,6 @@ name: Build
 
 on:
   push:
-    branches:
-      - hotfix
   workflow_dispatch:
 
 jobs:
@@ -21,40 +19,40 @@ jobs:
           arch: x64
           sdk: 10.0.20348.0
 
-      - name: Checkout self
-        uses: actions/checkout@v4
+      # - name: Checkout self
+      #   uses: actions/checkout@v4
 
-      - name: Checkout Zed
-        uses: actions/checkout@v4
-        with:
-          repository: zed-industries/zed
-          ref: refs/tags/v0.201.9
-          path: zed
+      # - name: Checkout Zed
+      #   uses: actions/checkout@v4
+      #   with:
+      #     repository: zed-industries/zed
+      #     ref: refs/tags/v0.201.9
+      #     path: zed
 
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          toolchain: stable
-          target: wasm32-wasip1
+      # - name: Install Rust
+      #   uses: dtolnay/rust-toolchain@stable
+      #   with:
+      #     toolchain: stable
+      #     target: wasm32-wasip1
 
-      - name: Rust Cache
-        uses: Swatinem/rust-cache@v2
-        with:
-          key: ${{ matrix.os }}-${{ hashFiles('Cargo.lock') }}
-          workspaces: |
-            zed -> zed/target
+      # - name: Rust Cache
+      #   uses: Swatinem/rust-cache@v2
+      #   with:
+      #     key: ${{ matrix.os }}-${{ hashFiles('Cargo.lock') }}
+      #     workspaces: |
+      #       zed -> zed/target
 
-      - name: Build
-        working-directory: zed
-        env:
-          RUSTFLAGS: "-C target-cpu=native"
-        run: |
-          cargo b -r
+      # - name: Build
+      #   working-directory: zed
+      #   env:
+      #     RUSTFLAGS: "-C target-cpu=native"
+      #   run: |
+      #     cargo b -r
 
-      - name: Archive build
-        uses: actions/upload-artifact@v4
-        with:
-          name: zed-${{ matrix.os }}
-          path: |
-            zed/target/release/zed
-            zed/target/release/zed.exe
+      # - name: Archive build
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: zed-${{ matrix.os }}
+      #     path: |
+      #       zed/target/release/zed
+      #       zed/target/release/zed.exe
