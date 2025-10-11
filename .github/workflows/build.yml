@@ -58,8 +58,6 @@ jobs:
 
       - name: Build
         working-directory: zed
-        env:
-          RUSTFLAGS: "-C target-cpu=native"
         run: |
           cargo b -r
 
