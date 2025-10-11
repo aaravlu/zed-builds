@@ -33,6 +33,10 @@ jobs:
       - name: Checkout self
         uses: actions/checkout@v4
 
+      - name: Copy config file
+        run: |
+          cp .cargo/config.toml zed/.cargo/config.toml
+
       - name: Checkout Zed
         uses: actions/checkout@v4
         with:
