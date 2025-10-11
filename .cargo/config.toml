@@ -1,13 +1,18 @@
 [target.'cfg(target_os = "windows")']
 rustflags = [
+  "-C",
+  "target-cpu=native",
   "--cfg",
   "windows_slim_errors",
   "-C",
   "target-feature=+crt-static"
 ]
+[target.'cfg(target_os = "linux")']
+rustflags = [
+  "-C",
+  "target-cpu=native"
+]
 
-[build]
-rustflags = ["-C", "target-cpu=native"]
 [profile.release]
 codegen-units = 1
 debug = false
