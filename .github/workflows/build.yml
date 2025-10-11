@@ -18,7 +18,7 @@ jobs:
           git config --system core.longpaths true
 
       - name: Enable long paths in windows
-        if: ${{ matrix.os == 'windows-2022' }}
+        if: matrix.os == 'windows-2022'
         shell: powershell
         run: |
           New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" `
@@ -62,17 +62,9 @@ jobs:
           cargo b -r
 
       - name: Archive windows build
-        if: matrix.os == 'windows-2022'
-        uses: actions/upload-artifact@v4
-        with:
-          name: zed-${{ matrix.os }}
-          path: |
-            zed/target/release/zed.exe
-
-      - name: Archive linux build
-        if: matrix.os == 'ubuntu-24.04'
         uses: actions/upload-artifact@v4
         with:
           name: zed-${{ matrix.os }}
           path: |
             zed/target/release/zed
+            zed/target/release/zed.exe
