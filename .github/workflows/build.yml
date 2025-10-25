@@ -66,7 +66,7 @@ jobs:
           name: zed-cli-${{ matrix.os }}
           path: |
             zed/target/release/zed
-            zed/target/release/zed.exe
+            zed/target/release/*.exe
 
       - name: Build editor
         working-directory: zed
