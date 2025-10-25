@@ -63,7 +63,7 @@ jobs:
       - name: Archive cli
         uses: actions/upload-artifact@v4
         with:
-          name: zed_${{ matrix.os }}
+          name: zed_cli_${{ matrix.os }}
           path: |
             zed/target/release/cli
             zed/target/release/cli.exe
@@ -76,7 +76,7 @@ jobs:
       - name: Archive editor
         uses: actions/upload-artifact@v4
         with:
-          name: zed_${{ matrix.os }}
+          name: zed_editor_${{ matrix.os }}
           path: |
             zed/target/release/zed
             zed/target/release/zed.exe
