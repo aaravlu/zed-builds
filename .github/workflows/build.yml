@@ -55,6 +55,19 @@ jobs:
           key: ${{ matrix.os }}-${{ hashFiles('Cargo.lock') }}
           workspaces: "zed -> target"
 
+      - name: Build cli
+        working-directory: zed/crates/cli
+        run: |
+          cargo b -r
+
+      - name: Archive cli
+        uses: actions/upload-artifact@v4
+        with:
+          name: zed_${{ matrix.os }}
+          path: |
+            zed/target/release/cli
+            zed/target/release/cli.exe
+
       - name: Build editor
         working-directory: zed
         run: |
@@ -63,9 +76,7 @@ jobs:
       - name: Archive editor
         uses: actions/upload-artifact@v4
         with:
-          name: zed-${{ matrix.os }}
+          name: zed_${{ matrix.os }}
           path: |
-            zed/target/release/cli
-            zed/target/release/cli.exe
             zed/target/release/zed
             zed/target/release/zed.exe
