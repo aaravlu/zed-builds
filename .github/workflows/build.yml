@@ -37,30 +37,23 @@ jobs:
         run: |
           cp .cargo/config.toml zed/.cargo/
 
-      - name: Install Linux dependencies
+      - name: Install linux dependencies
         if: matrix.os == 'ubuntu-24.04'
         run: |
           sudo apt update
           sudo apt install -y libx11-dev libasound2-dev libx11-xcb-dev libxkbcommon-dev libxkbcommon-x11-dev
 
-      - name: Install Rust
+      - name: Install rust
         uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: stable
           target: wasm32-wasip1
 
-      - name: Rust Cache
+      - name: Rust cache
         uses: Swatinem/rust-cache@v2
         with:
           key: ${{ matrix.os }}-${{ hashFiles('Cargo.lock') }}
           workspaces: "zed -> target"
-
-      - name: Setup windows sdk
-        if: matrix.os == 'windows-2022'
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: x64
-          sdk: 10.0.19041.0
 
       - name: Build cli
         working-directory: zed/crates/cli
