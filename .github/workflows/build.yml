@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: zed-industries/zed
-          ref: refs/tags/v0.209.6
+          ref: refs/tags/v0.210.4
           path: zed
 
       - name: Copy config file
@@ -54,6 +54,13 @@ jobs:
         with:
           key: ${{ matrix.os }}-${{ hashFiles('Cargo.lock') }}
           workspaces: "zed -> target"
+
+      - name: Setup windows sdk
+        if: matrix.os == 'windows-2022'
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+          sdk: 10.0.19041.0
 
       - name: Build cli
         working-directory: zed/crates/cli
