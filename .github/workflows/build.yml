@@ -49,11 +49,11 @@ jobs:
           toolchain: stable
           target: wasm32-wasip1
 
-      - name: Rust cache
-        uses: Swatinem/rust-cache@v2
-        with:
-          key: ${{ matrix.os }}-${{ hashFiles('Cargo.lock') }}
-          workspaces: "zed -> target"
+      # - name: Rust cache
+      #   uses: Swatinem/rust-cache@v2
+      #   with:
+      #     key: ${{ matrix.os }}-${{ hashFiles('Cargo.lock') }}
+      #     workspaces: "zed -> target"
 
       - name: Build cli
         working-directory: zed/crates/cli
