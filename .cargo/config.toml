@@ -1,16 +1,12 @@
 [target.'cfg(target_os = "windows")']
 rustflags = [
-  "-C",
-  "target-cpu=native",
-  "--cfg",
-  "windows_slim_errors",
-  "-C",
-  "target-feature=+crt-static"
+"-C", "target-cpu=haswell",
+"-C", "target-feature=+crt-static",
+"--cfg", "windows_slim_errors"
 ]
 [target.'cfg(target_os = "linux")']
 rustflags = [
-  "-C",
-  "target-cpu=native"
+"-C", "target-cpu=haswell"
 ]
 
 [profile.release]
