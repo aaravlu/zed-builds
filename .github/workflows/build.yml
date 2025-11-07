@@ -89,11 +89,11 @@ jobs:
           cd -
 
           if [ "${{ matrix.os }}" == "ubuntu-24.04" ]; then
-            mv target/release/zed release/linux/zed/libexec
+            mv zed/target/release/zed release/linux/zed/libexec
           fi
 
           if [ "${{ matrix.os }}" == "windows-2022" ]; then
-            mv target/release/zed.exe release/windows/zed
+            mv zed/target/release/zed.exe release/windows/zed
           fi
 
       - name: Windows archive
