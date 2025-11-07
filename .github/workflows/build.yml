@@ -49,34 +49,65 @@ jobs:
           toolchain: stable
           target: wasm32-wasip1
 
-      # - name: Rust cache
-      #   uses: Swatinem/rust-cache@v2
-      #   with:
-      #     key: ${{ matrix.os }}-${{ hashFiles('Cargo.lock') }}
-      #     workspaces: "zed -> target"
+      - name: Rust cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.os }}-${{ hashFiles('Cargo.lock') }}
+          workspaces: "zed -> target"
+
+      - name: Create release dir
+        shell: bash
+        run: |
+          if [ "${{ matrix.os }}" == "ubuntu-24.04" ]; then
+            mkdir -p release/linux/zed/bin release/linux/zed/libexec
+          fi
+
+          if [ "${{ matrix.os }}" == "windows-2022" ]; then
+            mkdir -p release/windows/zed/bin
+          fi
 
       - name: Build cli
-        working-directory: zed/crates/cli
+        shell: bash
         run: |
+          cd zed/crates/cli
           cargo b -r
+          cd -
 
-      - name: Archive cli
-        uses: actions/upload-artifact@v4
-        with:
-          name: zed_cli_${{ matrix.os }}
-          path: |
-            zed/target/release/cli
-            zed/target/release/cli.exe
+          if [ "${{ matrix.os }}" == "ubuntu-24.04" ]; then
+            mv zed/target/release/cli release/linux/zed/bin/zed
+          fi
+
+          if [ "${{ matrix.os }}" == "windows-2022" ]; then
+            mv zed/target/release/cli.exe release/windows/zed/bin/zed.exe
+          fi
 
       - name: Build editor
-        working-directory: zed
+        shell: bash
         run: |
+          cd zed
           cargo b -r
+          cd -
 
-      - name: Archive editor
+          if [ "${{ matrix.os }}" == "ubuntu-24.04" ]; then
+            mv target/release/zed release/linux/zed/libexec
+          fi
+
+          if [ "${{ matrix.os }}" == "windows-2022" ]; then
+            mv target/release/zed.exe release/windows/zed
+          fi
+
+      - name: Windows archive
+        if: matrix.os == 'ubuntu-24.04'
         uses: actions/upload-artifact@v4
         with:
-          name: zed_editor_${{ matrix.os }}
+          name: zed_${{ matrix.os }}
           path: |
-            zed/target/release/zed
-            zed/target/release/zed.exe
+            release/linux/zed
+
+      - name: Linux archive
+        if: matrix.os == 'windows-2022'
+        uses: actions/upload-artifact@v4
+        with:
+          name: zed_${{ matrix.os }}
+          path: |
+            release/windows/zed
