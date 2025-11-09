@@ -71,7 +71,7 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: x64
-          sdk: 10.0.20348
+          sdk: 10.0.20348.1
 
       - name: Build cli
         shell: bash
