@@ -66,12 +66,12 @@ jobs:
             mkdir -p release/windows/zed/bin
           fi
 
-      - name: Setup MSVC
-        if: matrix.os == 'windows-2022'
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: x64
-          sdk: 10.0.20348.0
+      # - name: Setup MSVC
+      #   if: matrix.os == 'windows-2022'
+      #   uses: ilammy/msvc-dev-cmd@v1
+      #   with:
+      #     arch: x64
+      #     sdk: 10.0.20348.0
 
       - name: Build cli
         shell: bash
