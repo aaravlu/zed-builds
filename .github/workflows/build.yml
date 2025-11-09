@@ -66,6 +66,14 @@ jobs:
             mkdir -p release/windows/zed/bin
           fi
 
+      - name: Setup MSVC
+        if: matrix.os == 'windows-2022'
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+          toolset: 14.29
+          sdk: 10.0.20348.3330
+
       - name: Build cli
         shell: bash
         run: |
@@ -94,10 +102,9 @@ jobs:
 
           if [ "${{ matrix.os }}" == "windows-2022" ]; then
             mv zed/target/release/zed.exe release/windows/zed
-            mv zed/target/release/*.dll release/windows/zed
           fi
 
-      - name: Windows archive
+      - name: Linux archive
         if: matrix.os == 'ubuntu-24.04'
         uses: actions/upload-artifact@v4
         with:
@@ -105,7 +112,7 @@ jobs:
           path: |
             release/linux/zed
 
-      - name: Linux archive
+      - name: Windows archive
         if: matrix.os == 'windows-2022'
         uses: actions/upload-artifact@v4
         with:
