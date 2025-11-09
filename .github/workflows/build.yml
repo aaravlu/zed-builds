@@ -94,6 +94,7 @@ jobs:
 
           if [ "${{ matrix.os }}" == "windows-2022" ]; then
             mv zed/target/release/zed.exe release/windows/zed
+            mv zed/target/release/*.dll release/windows/zed
           fi
 
       - name: Windows archive
