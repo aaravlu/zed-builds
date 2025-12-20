@@ -61,6 +61,10 @@ jobs:
       - name: Build cli
         shell: bash
         run: |
+          cd zed
+          cargo update
+          cd - 
+
           cd zed/crates/cli
           cargo b -r
           cd -
