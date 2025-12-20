@@ -12,25 +12,29 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Enable long paths in git
+      - name: Windows Config
         if: matrix.os == 'windows-2022'
         run: |
           git config --system core.longpaths true
+          echo "Enabled long paths in git"
 
-      - name: Enable long paths in windows
-        if: matrix.os == 'windows-2022'
-        run: |
-          New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" `
-            -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
+          New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
+          echo "Enabled long paths in registry"
+
+          $git_link = "C:\Program Files\Git\usr\bin\link.exe"
+          if (Test-Path $git_link) {
+              Rename-Item $git_link "_link.exe"
+          }
+          echo "Removed link.exe in git"
 
       - name: Checkout self
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
-      - name: Checkout zed
+      - name: Checkout target
         uses: actions/checkout@v6
         with:
           repository: zed-industries/zed
-          ref: refs/tags/v0.215.3
+          ref: refs/tags/v0.217.3
           path: zed
 
       - name: Copy config file
@@ -42,18 +46,6 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y libx11-dev libasound2-dev libx11-xcb-dev libxkbcommon-dev libxkbcommon-x11-dev
-
-      - name: Install rust
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          toolchain: stable
-          target: wasm32-wasip1
-
-      - name: Rust cache
-        uses: Swatinem/rust-cache@v2
-        with:
-          key: ${{ matrix.os }}-${{ hashFiles('Cargo.lock') }}
-          workspaces: "zed -> target"
 
       - name: Create release dir
         shell: bash
@@ -98,7 +90,7 @@ jobs:
 
       - name: Linux archive
         if: matrix.os == 'ubuntu-24.04'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: zed_${{ matrix.os }}
           path: |
