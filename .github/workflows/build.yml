@@ -8,7 +8,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [windows-2022]
+        os: [ubuntu-24.04, windows-2022]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -34,7 +34,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: zed-industries/zed
-          ref: refs/tags/v0.217.3
+          ref: main
           path: zed
 
       - name: Copy config file
