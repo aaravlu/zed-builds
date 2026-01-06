@@ -92,7 +92,7 @@ jobs:
         if: matrix.os == 'ubuntu-24.04'
         uses: actions/upload-artifact@v5
         with:
-          name: zed_${{ matrix.os }}
+          name: zed_${{ runner.os }}
           path: |
             release/linux/zed
 
@@ -100,6 +100,6 @@ jobs:
         if: matrix.os == 'windows-2022'
         uses: actions/upload-artifact@v5
         with:
-          name: zed_${{ matrix.os }}
+          name: zed_${{ runner.os }}
           path: |
             release/windows/zed
