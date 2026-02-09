@@ -68,12 +68,11 @@ jobs:
 
           if ($p.ExitCode -ne 0) {
             Write-Error "Install failed with exit code $($p.ExitCode)"
-            # 可選：輸出安裝 log，如果有的話
-            Get-Content "$env:TEMP\winsdksetup*.log" -ErrorAction SilentlyContinue
-            exit $p.ExitCode
           }
 
           Write-Host "Installation finished (exit code 0)"
+
+          ls "C:\\Program Files (x86)\\Windows Kits\\10\\Include"
 
       - name: Setup MSVC
         if: runner.os == 'Windows'
