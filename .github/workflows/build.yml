@@ -30,6 +30,21 @@ jobs:
       - name: Checkout self
         uses: actions/checkout@v6
 
+      - name: Setup MSVC
+        if: matrix.os == 'windows-2022'
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          toolset: 14.29
+          arch: x64
+          sdk: 10.0.19041.0
+
+      - name: Setup Spectre
+        if: matrix.os == 'windows-2022'
+        shell: pwsh
+        run: |
+          7z x spectre.7z -o"$env:VCToolsInstallDir\lib"
+          $env:LIBPATH = "$env:VCToolsInstallDir\lib\spectre\x64;" + $env:LIBPATH
+
       - name: Checkout target
         uses: actions/checkout@v6
         with:
