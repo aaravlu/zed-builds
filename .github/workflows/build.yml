@@ -30,7 +30,8 @@ jobs:
       - name: Checkout self
         uses: actions/checkout@v6
 
-      - name: Install Windows SDK 10.0.20348.0 silently (all except UWP)
+      - name: Setup Windows SDK 10.0.20348.0
+        if: runner.os == 'Windows'
         shell: pwsh
         run: |
           $setup = "$env:TEMP\winsdksetup-20348.exe"
