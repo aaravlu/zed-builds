@@ -40,11 +40,10 @@ jobs:
 
       - name: Copy stdalign.h from 10.0.20348.0 to 10.0.19041.0
         if: runner.os == 'Windows'
-        shell: bash
+        shell: pwsh
         run: |
-          ls "/c/Program Files (x86)/Windows Kits/10/Include/10.0.20348.0/ucrt/"
-          cp "/c/Program Files (x86)/Windows Kits/10/Include/10.0.20348.0/ucrt/stdalign.h" "/c/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt/stdalign.h"
-          ls "/c/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt/stdalign.h"
+          ls "C:\\Program Files (x86)\\Windows \\10\\Include\\10.0.20348.0\\ucrt"
+          cp "C:\\Program Files (x86)\\Windows \\10\\Include\\10.0.20348.0\\ucrt\\stdalign.h" "C:\\Program Files (x86)\\Windows \\10\\Include\\10.0.19041.0\\ucrt\\stdalign.h"
 
       - name: Setup Spectre
         if: runner.os == 'Windows'
