@@ -42,8 +42,8 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          ls "C:\\Program Files (x86)\\Windows \\10"
-          cp "C:\\Program Files (x86)\\Windows \\10\\Include\\10.0.20348.0\\ucrt\\stdalign.h" "C:\\Program Files (x86)\\Windows \\10\\Include\\10.0.19041.0\\ucrt\\stdalign.h"
+          ls "C:\\Program Files (x86)\\Windows Kits\\10"
+          cp "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.20348.0\\ucrt\\stdalign.h" "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt\\stdalign.h"
 
       - name: Setup Spectre
         if: runner.os == 'Windows'
