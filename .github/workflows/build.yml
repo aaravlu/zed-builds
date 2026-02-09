@@ -72,7 +72,9 @@ jobs:
 
           Write-Host "Installation finished (exit code 0)"
 
-          ls "C:\\Program Files (x86)\\Windows Kits\\10\\Include"
+          tree "C:\\Program Files (x86)\\Windows Kits\\10\\Include"
+
+          exit 1
 
       - name: Setup MSVC
         if: runner.os == 'Windows'
