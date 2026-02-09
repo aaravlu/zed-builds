@@ -80,7 +80,7 @@ jobs:
         with:
           toolset: 14.29
           arch: x64
-          sdk: 10.0.20384.1
+          sdk: 10.0.20384.0
 
       - name: Setup Spectre
         if: runner.os == 'Windows'
