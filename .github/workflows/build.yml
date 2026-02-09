@@ -30,53 +30,12 @@ jobs:
       - name: Checkout self
         uses: actions/checkout@v6
 
-      - name: Download winsdksetup.exe
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          $url = "https://go.microsoft.com/fwlink/?linkid=2164145"
-          $out = "$env:TEMP\winsdksetup-20348.exe"
-          Invoke-WebRequest -Uri $url -OutFile $out -UseBasicParsing
-          Write-Host "Downloaded to: $out"
-          if ((Get-Item $out).Length -lt 100KB) { throw "Download failed - file too small" }
-
-      - name: Setup Windows SDK 10.0.20348.0
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          $setup = "$env:TEMP\winsdksetup-20348.exe"
-
-          $features = @(
-            "OptionId.SigningTools",
-            "OptionId.WindowsDesktopDebuggers",
-            "OptionId.WindowsPerformanceToolkit",
-            "OptionId.MSIInstallTools",
-            "OptionId.IpOverUsb",
-            "OptionId.AvrfExternal",
-            "OptionId.NetFxSoftwareDevelopmentKit",
-            "OptionId.WindowsSoftwareLogoToolkit",
-            "OptionId.DesktopCPPx86",
-            "OptionId.DesktopCPPx64"
-          )
-
-          $arg_features = $features -join " "
-          $args = "/features $arg_features /quiet /norestart /ceip off"
-
-          Write-Host "Installing with features (excluded UWP): $arg_features"
-
-          $p = Start-Process -FilePath $setup -ArgumentList $args -Wait -NoNewWindow -PassThru
-
-          if ($p.ExitCode -ne 0) {
-            Write-Error "Install failed with exit code $($p.ExitCode)"
-          }
-
       - name: Setup MSVC
         if: runner.os == 'Windows'
         uses: ilammy/msvc-dev-cmd@v1
         with:
           toolset: 14.29
           arch: x64
-          sdk: 10.0.20348.0
 
       - name: Setup Spectre
         if: runner.os == 'Windows'
