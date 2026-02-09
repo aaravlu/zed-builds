@@ -30,7 +30,8 @@ jobs:
       - name: Checkout self
         uses: actions/checkout@v6
 
-      - name: Download winsdksetup.exe (10.0.20348.0)
+      - name: Download winsdksetup.exe
+        if: runner.os == 'Windows'
         shell: pwsh
         run: |
           $url = "https://go.microsoft.com/fwlink/?linkid=2164145"
