@@ -70,19 +70,13 @@ jobs:
             Write-Error "Install failed with exit code $($p.ExitCode)"
           }
 
-          Write-Host "Installation finished (exit code 0)"
-
-          tree "C:\\Program Files (x86)\\Windows Kits\\10\\Include"
-
-          exit 1
-
       - name: Setup MSVC
         if: runner.os == 'Windows'
         uses: ilammy/msvc-dev-cmd@v1
         with:
           toolset: 14.29
           arch: x64
-          sdk: 10.0.20384.0
+          sdk: 10.0.20348.0
 
       - name: Setup Spectre
         if: runner.os == 'Windows'
