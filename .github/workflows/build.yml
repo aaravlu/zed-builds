@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Windows Config
-        if: matrix.os == 'windows-2022'
+        if: runner.os == 'Windows'
         run: |
           git config --system core.longpaths true
           echo "Enabled long paths in git"
@@ -31,15 +31,22 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Setup MSVC
-        if: matrix.os == 'windows-2022'
+        if: runner.os == 'Windows'
         uses: ilammy/msvc-dev-cmd@v1
         with:
           toolset: 14.29
           arch: x64
           sdk: 10.0.19041.0
 
+      - name: Copy stdalign.h from 10.0.20348.0 to 10.0.19041.0
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          cp "/c/Program Files (x86)/Windows Kits/10/Include/10.0.20348.0/ucrt/stdalign.h" "/c/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt/stdalign.h"
+          ls "/c/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt/stdalign.h"
+
       - name: Setup Spectre
-        if: matrix.os == 'windows-2022'
+        if: runner.os == 'Windows'
         shell: pwsh
         run: |
           7z x spectre.7z -o"$env:VCToolsInstallDir\lib"
@@ -112,7 +119,7 @@ jobs:
             release/linux/zed
 
       - name: Windows archive
-        if: matrix.os == 'windows-2022'
+        if: runner.os == 'Windows'
         uses: actions/upload-artifact@v5
         with:
           name: zed_${{ runner.os }}
