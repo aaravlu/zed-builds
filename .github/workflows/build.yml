@@ -46,7 +46,7 @@ jobs:
             "OptionId.NetFxSoftwareDevelopmentKit",
             "OptionId.WindowsSoftwareLogoToolkit",
             "OptionId.DesktopCPPx86",
-            "OptionId.DesktopCPPx64",
+            "OptionId.DesktopCPPx64"
           )
 
           $arg_features = $features -join " "
