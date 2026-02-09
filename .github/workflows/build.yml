@@ -30,6 +30,15 @@ jobs:
       - name: Checkout self
         uses: actions/checkout@v6
 
+      - name: Download winsdksetup.exe (10.0.20348.0)
+        shell: pwsh
+        run: |
+          $url = "https://go.microsoft.com/fwlink/?linkid=2164145"
+          $out = "$env:TEMP\winsdksetup-20348.exe"
+          Invoke-WebRequest -Uri $url -OutFile $out -UseBasicParsing
+          Write-Host "Downloaded to: $out"
+          if ((Get-Item $out).Length -lt 100KB) { throw "Download failed - file too small" }
+
       - name: Setup Windows SDK 10.0.20348.0
         if: runner.os == 'Windows'
         shell: pwsh
