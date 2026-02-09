@@ -36,15 +36,43 @@ jobs:
         with:
           toolset: 14.29
           arch: x64
-          sdk: 10.0.19041.0
+          sdk: 10.0.20384.1
 
-      - name: Add stdalign.h
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          Copy-Item `
-          stdalign.h `
-          "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt"
+      # - name: Install Windows SDK 10.0.20348.0 silently (all except UWP)
+      #   shell: pwsh
+      #   run: |
+      #     $setup = "$env:TEMP\winsdksetup-20348.exe"
+
+      #     $features = @(
+      #       "OptionId.SigningTools",
+      #       "OptionId.WindowsDesktopDebuggers",
+      #       "OptionId.WindowsPerformanceToolkit",
+      #       "OptionId.MSIInstallTools",
+      #       "OptionId.IpOverUsb",
+      #       "OptionId.AvrfExternal",
+      #       "OptionId.NetFxSoftwareDevelopmentKit",
+      #       "OptionId.WindowsSoftwareLogoToolkit",
+      #       "OptionId.DesktopCPPx86",
+      #       "OptionId.DesktopCPPx64",
+      #       "OptionId.DesktopCPParm",
+      #       "OptionId.DesktopCPParm64"
+      #     )
+
+      #     $arg_features = $features -join " "
+      #     $args = "/features $arg_features /quiet /norestart /ceip off"
+
+      #     Write-Host "Installing with features (excluded UWP): $arg_features"
+
+      #     $p = Start-Process -FilePath $setup -ArgumentList $args -Wait -NoNewWindow -PassThru
+
+      #     if ($p.ExitCode -ne 0) {
+      #       Write-Error "Install failed with exit code $($p.ExitCode)"
+      #       # 可選：輸出安裝 log，如果有的話
+      #       Get-Content "$env:TEMP\winsdksetup*.log" -ErrorAction SilentlyContinue
+      #       exit $p.ExitCode
+      #     }
+
+      #     Write-Host "Installation finished (exit code 0)"
 
       - name: Setup Spectre
         if: runner.os == 'Windows'
