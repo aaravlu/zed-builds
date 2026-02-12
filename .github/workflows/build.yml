@@ -30,25 +30,25 @@ jobs:
       - name: Checkout self
         uses: actions/checkout@v6
 
-      - name: Setup MSVC
-        if: runner.os == 'Windows'
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          toolset: 14.29
-          arch: x64
+      # - name: Setup MSVC
+      #   if: runner.os == 'Windows'
+      #   uses: ilammy/msvc-dev-cmd@v1
+      #   with:
+      #     toolset: 14.29
+      #     arch: x64
 
-      - name: Setup Spectre
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          7z x spectre.7z -o"$env:VCToolsInstallDir\lib"
-          $env:LIBPATH = "$env:VCToolsInstallDir\lib\spectre\x64;" + $env:LIBPATH
+      # - name: Setup Spectre
+      #   if: runner.os == 'Windows'
+      #   shell: pwsh
+      #   run: |
+      #     7z x spectre.7z -o"$env:VCToolsInstallDir\lib"
+      #     $env:LIBPATH = "$env:VCToolsInstallDir\lib\spectre\x64;" + $env:LIBPATH
 
       - name: Checkout target
         uses: actions/checkout@v6
         with:
           repository: zed-industries/zed
-          ref: refs/tags/v0.221.5
+          ref: refs/tags/v0.222.4
           path: zed
 
       - name: Copy config file
@@ -56,7 +56,7 @@ jobs:
           cp .cargo/config.toml zed/.cargo/
 
       - name: Install linux dependencies
-        if: matrix.os == 'ubuntu-24.04'
+        if: runner.os == 'Linux'
         run: |
           sudo apt update
           sudo apt install -y libx11-dev libasound2-dev libx11-xcb-dev libxkbcommon-dev libxkbcommon-x11-dev
@@ -103,7 +103,7 @@ jobs:
           fi
 
       - name: Linux archive
-        if: matrix.os == 'ubuntu-24.04'
+        if: runner.os == 'Linux'
         uses: actions/upload-artifact@v5
         with:
           name: zed_${{ runner.os }}
