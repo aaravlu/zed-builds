@@ -1,12 +1,15 @@
+[build]
+rustflags = [
+"-C", "target-cpu=znver3"
+]
 [target.'cfg(target_os = "windows")']
 rustflags = [
-"-C", "target-cpu=haswell",
 "-C", "target-feature=+crt-static",
 "--cfg", "windows_slim_errors"
 ]
 [target.'cfg(target_os = "linux")']
 rustflags = [
-"-C", "target-cpu=haswell"
+"-C", "target-cpu=znver3"
 ]
 
 [profile.release]
