@@ -59,7 +59,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt update
-          sudo apt install -y libx11-dev libasound2-dev libx11-xcb-dev libxkbcommon-dev libxkbcommon-x11-dev
+          sudo apt install -y pkg-config libfontconfig1-dev libglib2.0-dev libx11-dev libasound2-dev libx11-xcb-dev libxkbcommon-dev libxkbcommon-x11-dev
 
       - name: Create release dir
         shell: bash
@@ -90,11 +90,6 @@ jobs:
       - name: Build editor
         shell: bash
         run: |
-          if [ "${{ matrix.os }}" == "ubuntu-24.04" ]; then
-            sudo apt update
-            sudo apt install libglib2.0-dev pkg-config
-          fi
-
           cd zed
           cargo b -r
           cd -
