@@ -90,13 +90,16 @@ jobs:
       - name: Build editor
         shell: bash
         run: |
+          if [ "${{ matrix.os }}" == "ubuntu-24.04" ]; then
+            sudo apt update
+            sudo apt install libglib2.0-dev pkg-config
+          fi
+
           cd zed
           cargo b -r
           cd -
 
           if [ "${{ matrix.os }}" == "ubuntu-24.04" ]; then
-            sudo apt update
-            sudo apt install libglib2.0-dev pkg-config
             mv zed/target/release/zed release/linux/zed/libexec
           fi
 
