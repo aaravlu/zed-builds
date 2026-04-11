@@ -48,7 +48,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: zed-industries/zed
-          ref: refs/tags/v0.228.0
+          ref: refs/tags/v0.231.2
           path: zed
 
       - name: Copy config file
