@@ -48,7 +48,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: zed-industries/zed
-          ref: refs/tags/v0.233.10
+          ref: refs/tags/v1.0.0
           path: zed
 
       - name: Copy config file
@@ -104,7 +104,7 @@ jobs:
 
       - name: Linux archive
         if: runner.os == 'Linux'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: zed_${{ runner.os }}
           path: |
@@ -112,7 +112,7 @@ jobs:
 
       - name: Windows archive
         if: runner.os == 'Windows'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: zed_${{ runner.os }}
           path: |
